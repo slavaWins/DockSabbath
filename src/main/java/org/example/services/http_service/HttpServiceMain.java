@@ -29,7 +29,7 @@ public class HttpServiceMain {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        System.out.println("Starting http server on port localhost:" + port );
+        System.out.println("Starting http server on port in your ip: localhost:" + port );
     }
 
 
