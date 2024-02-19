@@ -1,0 +1,112 @@
+package org.example.services.git;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.example.core.IoHelper;
+import org.example.core.yml.YmlConfig;
+import org.example.core.yml.YmlParser;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class GitDownload {
+
+    public class FileData {
+        public String name;
+        public String download_url;
+    }
+
+    public static void downloadGitFromSettings(String nameKey) {
+
+        YmlConfig config = YmlParser.read("./ns/" + nameKey + ".yml");
+
+        if (config == null) {
+            System.out.println("not read file");
+            return;
+        }
+
+        String token = config.get("git.token"); // Ваш токен авторизации
+        String owner = config.get("git.owner"); // Владелец репозитория
+        String repo = config.get("git.repo"); // Название репозитория
+        String branch = config.get("git.branch"); // Название ветки
+        String path = config.get("git.path"); // Путь к файлу в репозитории
+
+
+        if (path.equalsIgnoreCase("/")) path = "";
+
+
+        String url = "https://api.github.com/repos/" + owner + "/" + repo + "/zipball/" + branch;
+
+
+        File mainTempDir = new File("_temp/");
+        mainTempDir.mkdirs();
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization", "token " + token)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                System.out.println("File downloaded successfully:");
+
+                File zipFile = new File(mainTempDir, nameKey + ".zip");
+                FileOutputStream fileOutputStream = new FileOutputStream(zipFile);
+                fileOutputStream.write(response.body().bytes());
+                fileOutputStream.close();
+                System.out.println("Git branch file saved to: " + zipFile.getAbsolutePath());
+
+                File to = new File(mainTempDir, "output");
+                if (to.exists()) {
+                    IoHelper.delete(to);
+                }
+
+                IoHelper.unzip(zipFile, to);
+
+
+                File firestFile = IoHelper.getFirstFolder(to);
+
+                IoHelper.copyFile(firestFile, new File("ns-files/" + nameKey));
+
+
+            } else {
+                System.out.println("Failed to download file: " + response.code() + " " + response.message());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void downloadAndSaveFile(String fileUrl, String fileName) throws IOException {
+
+        System.out.println(fileName);
+        String p = "example/" + fileName;
+
+        if (fileName.indexOf(".") == -1) {
+
+            File file = new File(p);
+            file.mkdirs();
+
+            return;
+        }
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(fileUrl)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                try (FileOutputStream fos = new FileOutputStream(p)) {
+                    fos.write(response.body().bytes());
+                }
+            } else {
+                System.out.println("Failed to download file " + fileName + ": " + response.code() + " " + response.message());
+            }
+        }
+    }
+}

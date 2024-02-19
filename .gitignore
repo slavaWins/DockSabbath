@@ -5,7 +5,9 @@ target/
 
 
 ns
-ns/**
+ns-files
+_temp
+
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
