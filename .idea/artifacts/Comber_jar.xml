@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Comber:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Comber_jar</output-path>
+    <root id="archive" name="Comber.jar">
+      <element id="module-output" name="Comber" />
+    </root>
+  </artifact>
+</component>

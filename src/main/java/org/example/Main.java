@@ -2,8 +2,8 @@ package org.example;
 
 import org.example.core.ChatColor;
 import org.example.core.Fastcommand;
-import org.example.service.ns.NsProcessed;
 import org.example.services.cmd.ComboCmd;
+import org.example.services.http_service.HttpServiceMain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println(ChatColor.YELLOW + "====Starting====");
 
+
+        HttpServiceMain.start();
 
         List<Fastcommand> comanders = new ArrayList<>();
 

@@ -1,10 +1,8 @@
 package org.example.services.cmd;
 
 import org.example.core.Fastcommand;
-import org.example.service.ns.NsParse;
-import org.example.service.ns.NsProcessed;
-
-import java.util.List;
+import org.example.services.ns.NsParse;
+import org.example.services.ns.NsProcessed;
 
 public class ComboCmd extends Fastcommand {
 
@@ -24,6 +22,12 @@ public class ComboCmd extends Fastcommand {
         com.descrip = "Запустить композ";
         com.event = this::Up;
         com.arguments.add("ns");
+        commands.add(com);
+
+        com = new CommandElemet();
+        com.subcommond = "upall";
+        com.descrip = "Запустить все композы";
+        com.event = this::UpAll;
         commands.add(com);
 
 
@@ -64,6 +68,14 @@ public class ComboCmd extends Fastcommand {
 
         sendMessage("Запуск нса");
         NsProcessed.addProcess(strings[0], "docker-compose up");
+    }
+
+
+    private void UpAll(String[] strings) {
+        for (String name : NsParse.getNs()) {
+            sendMessage("Запуск нса");
+            NsProcessed.addProcess(name, "docker-compose up");
+        }
     }
 
     private void Build(String[] strings) {
