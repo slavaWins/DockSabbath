@@ -1,13 +1,24 @@
 package org.example.core.yml;
 
+import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 public class YmlConfig {
 
-    final Map<String, Object> config;
+    public String fileName;
+    public String name;
+    public final Map<String, Object> config;
 
-    public YmlConfig(Map<String, Object> config) {
-        this.config = config;
+
+    public YmlConfig(Map<String, Object> data, String fileName) {
+        this.config = data;
+        this.fileName = fileName;
+        name = fileName;
+        File f = new File(fileName);
+
+        name = f.getName().replace(".yml", "");
+
     }
 
     public String get(String key) {
@@ -22,4 +33,22 @@ public class YmlConfig {
         }
         return (String) value; // Преобразуем к строке и возвращаем
     }
+
+
+    public Map<String, String> getDictionary(String key) {
+        Object value = config.get(key);
+        if (value instanceof Map) {
+            return (Map<String, String>) value;
+        }
+        return null;
+    }
+
+    public List<String> getList(String key) {
+        Object value = config.get(key);
+        if (value instanceof List<?>) {
+            return (List<String>) value;
+        }
+        return null;
+    }
+
 }

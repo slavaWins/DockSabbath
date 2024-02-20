@@ -2,8 +2,7 @@ package org.example.core;
 
 import org.apache.ant.compress.taskdefs.Unzip;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -85,4 +84,39 @@ public class IoHelper {
 
     }
 
+    public static String readFile(File composeFile) {
+        try {
+            // Считываем содержимое файла
+            BufferedReader reader = new BufferedReader(new FileReader(composeFile));
+            StringBuilder content = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append(System.lineSeparator());
+            }
+            reader.close();
+
+            // Заменяем текст
+            return content.toString();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean  writeFile(File composeFile, String updatedContent) {
+        try {
+            // Считываем содержимое файла
+
+            // Записываем обновленное содержимое обратно в файл
+            BufferedWriter writer = new BufferedWriter(new FileWriter(composeFile));
+            writer.write(updatedContent);
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  false;
+        }
+        return  true;
+    }
 }

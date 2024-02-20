@@ -23,7 +23,7 @@ public class YmlParser {
             Map<String, Object> data = yaml.load(input);
             // выводим данные на экран
             // System.out.println(data);
-            return new YmlConfig(data);
+            return new YmlConfig(data, fileName);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

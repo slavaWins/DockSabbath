@@ -18,13 +18,13 @@ public class GitDownload {
         public String download_url;
     }
 
-    public static void downloadGitFromSettings(String nameKey) {
+    public static boolean downloadGitFromSettings(String nameKey) {
 
         YmlConfig config = YmlParser.read("./ns/" + nameKey + ".yml");
 
         if (config == null) {
             System.out.println("not read file");
-            return;
+            return false;
         }
 
         String token = config.get("git.token"); // Ваш токен авторизации
@@ -38,7 +38,7 @@ public class GitDownload {
 
 
         String url = "https://api.github.com/repos/" + owner + "/" + repo + "/zipball/" + branch;
-
+        System.out.println(url);
 
         File mainTempDir = new File("_temp/");
         mainTempDir.mkdirs();
@@ -75,10 +75,12 @@ public class GitDownload {
 
             } else {
                 System.out.println("Failed to download file: " + response.code() + " " + response.message());
+                return false;
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 
     private static void downloadAndSaveFile(String fileUrl, String fileName) throws IOException {

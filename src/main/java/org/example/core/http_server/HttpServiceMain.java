@@ -2,13 +2,13 @@ package org.example.core.http_server;
 
 import com.sun.net.httpserver.HttpServer;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
+import org.example.core.IpHelper;
 
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class HttpServiceMain {
     }
 
     public static String getDomain() {
-        return "http://localhost:" + port;
+        return "http://" + IpHelper.getIp() + ":" + port;
     }
 
 
@@ -73,11 +73,35 @@ public class HttpServiceMain {
                 return;
             }
 
+            System.out.println(exchange.getRequestMethod() + " " + exchange.getRequestURI());
+            System.out.println(readReqBody(exchange.getRequestBody()));
+
             response = "not found";
             exchange.sendResponseHeaders(404, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
             os.close();
+        }
+    }
+
+    public static String readReqBody(InputStream requestBodyInput) {
+        try {
+            InputStreamReader isr = null;
+
+            isr = new InputStreamReader(requestBodyInput, "utf-8");
+
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder requestBody = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                requestBody.append(line);
+            }
+            String requestBodyAsString = requestBody.toString();
+            return requestBodyAsString;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

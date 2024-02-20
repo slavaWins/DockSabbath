@@ -13,6 +13,12 @@ public class Fastcommand {
     public List<CommandElemet> commands = new ArrayList<>();
 
 
+    public String[] argToList(String arg){
+        String[] list = new String[1];
+        list[0] =(arg);
+        return list;
+    }
+
     /**
      * Команда которая вызывается если вписать /base по дефалту хелп
      */
