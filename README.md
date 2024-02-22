@@ -1,32 +1,32 @@
 <h1 align="center">
   <br>
-  <img src="img/logo.png" alt="ReAssets" width="300">
+  <img src="img/baner.png" alt="ReAssets" width="76%">
   <br>
   DockSabbath
-  <br>
 </h1>
 
-<h4 align="center">
-kubectl  для тупых и нищих
-</h4>
+<center>
+<small  >
+This is like kubectl, but for the dumb and the poor. I made it for myself.
+</small>
+</center>
 
-## Про DockSabbath
-DockSabbath - это простой аналог kubectl с минимальным набором команд для удобного запуска. Приложение представляет собой оболочку для docker-compose и позволяет запускать несколько композов параллельно. Для удобства приложение может загружать последнюю версию ветки с гитхаба, деплоить её на сервер и запускать автоматически.
+## About DockSabbath
+DockSabbath is a simple analog of kubectl with a minimal set of commands for convenient execution. The application is a shell for docker-compose and allows running multiple compositions in parallel. For convenience, the application can download the latest branch version from GitHub, deploy it to the server, and run it automatically.
 
-## Установка на Linux
+##   Installation on Linux
 
-Установите java
+Install Java
 
     wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb
     sudo apt install ./jdk-21_linux-x64_bin.deb
     java --version
 
-Скачивайте последний релиз и загрузите на сервер в удобную для вас папку.
-Затем перейдите в папку и запустите приложение командой:
+Download the latest release and upload it to a convenient directory on the server. Then navigate to the directory and start the application with the following command:
 
 > java -jar DockSabbath-1.0-SNAPSHOT-jar-with-dependencies.jar -nogui
+
+After the first launch, the application will generate tokens for Git and the client API. To view them, open the config.json file.
  
-После первого запуска, приложение сгенерит токены для гита и клиентского апи. Что бы их посмотреть откройте файл config.json
 
-
-## Использование
+## Use

@@ -64,7 +64,7 @@ public class ClientReadingApi {
 
 
         if (!mainConfig.clientApiEnabled) {
-            return new Gson().toJson(responseContract.error("Client api disabled edit config.yml in server"));
+            return new Gson().toJson(responseContract.error("Client api disabled edit config.json in server"));
         }
 
         if (!HashingApi.verify(body.hash, body.data, mainConfig.githubWebhookToken)) {
