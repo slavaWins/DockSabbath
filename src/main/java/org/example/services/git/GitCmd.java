@@ -1,7 +1,6 @@
 package org.example.services.git;
 
 import org.example.core.Fastcommand;
-import org.example.services.ns.NsProcessed;
 import org.example.services.nsconfigs.NsFileReplecer;
 
 public class GitCmd extends Fastcommand {

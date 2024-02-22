@@ -1,7 +1,8 @@
 package org.example.core;
 
 
-import java.awt.*;
+import org.example.helpers.ChatColor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;

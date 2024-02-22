@@ -17,7 +17,7 @@ public class YmlConfig {
         name = fileName;
         File f = new File(fileName);
 
-        name = f.getName().replace(".yml", "");
+        name = f.getName().replace(".yml", "").toLowerCase();
 
     }
 

@@ -1,13 +1,13 @@
 package org.example;
 
-import org.example.core.ChatColor;
 import org.example.core.Fastcommand;
-import org.example.services.Combo.ComposerCmd;
-import org.example.core.http_server.HttpServiceMain;
-import org.example.services.auto.AutoComboCmd;
+import org.example.helpers.ChatColor;
+import org.example.helpers.LogoDesignHelper;
+import org.example.services.Combo.ComboController;
 import org.example.services.git.GitCmd;
 import org.example.services.git.GitHttp;
-import org.example.services.nsconfigs.NsConfigsCmd;
+import org.example.services.http.HttpServiceBase;
+import org.example.services.sdbu.SdbuController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +18,22 @@ public class Main {
 
     public static void onEnable() {
 
+        LogoDesignHelper.logo();
 
-        HttpServiceMain.start();
+        HttpServiceBase.start();
 
 
         GitHttp gitHttp = new GitHttp();
         gitHttp.init();
 
 
-        comanders.add(new ComposerCmd());
-        comanders.add(new NsConfigsCmd());
+        comanders.add(new ComboController());
         comanders.add(new GitCmd());
-        comanders.add(new AutoComboCmd());
-        NsConfigsCmd.getInstance().GetNs(new String[0]);
+        comanders.add(new SdbuController());
 
+        ComboController.ShowAllNs();
+
+        //SertificateCheckrt.Generate();
     }
 
 
@@ -58,7 +60,7 @@ public class Main {
         if (isDisbled) return;
         isDisbled = true;
         System.out.println("Disabling");
-        ComposerCmd.StopAll();
+       // ComboController.StopAll();
 
         System.out.println("DISABLED APP");
     }
@@ -67,7 +69,6 @@ public class Main {
     public static void run() {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println(ChatColor.YELLOW + "====Starting====");
 
         while (true) {
             String command = scanner.nextLine();

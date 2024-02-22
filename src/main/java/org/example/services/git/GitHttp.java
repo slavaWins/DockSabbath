@@ -2,13 +2,12 @@ package org.example.services.git;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
-import org.example.core.http_server.HttpServiceMain;
-import org.example.core.http_server.RouteContract;
 import org.example.core.yml.YmlConfig;
-import org.example.services.auto.AutoComboCmd;
+import org.example.repositories.NsConfigsRepository;
 import org.example.services.git.contracts.GitWebHookContract;
-import org.example.services.nsconfigs.NsConfigsCmd;
-import org.example.services.nsconfigs.NsHelper;
+import org.example.services.http.HttpServiceBase;
+import org.example.services.http.contracts.RouteContract;
+import org.example.services.sdbu.SdbuController;
 
 public class GitHttp {
 
@@ -19,14 +18,14 @@ public class GitHttp {
         contract.call = this::ActionRoute;
         contract.method = "POST";
 
-        HttpServiceMain.addRoute(contract);
+        HttpServiceBase.addRoute(contract);
 
 
     }
 
     private String ActionRoute(HttpExchange httpExchange) {
 
-        String data = HttpServiceMain.readReqBody(httpExchange.getRequestBody());
+        String data = HttpServiceBase.readReqBody(httpExchange.getRequestBody());
 
       //  System.out.println(data);
 
@@ -44,7 +43,7 @@ public class GitHttp {
 
 
 
-        for (YmlConfig config : NsHelper.getNsConfgis()) {
+        for (YmlConfig config : NsConfigsRepository.getNsConfgis()) {
 
             if (!(config.get("git.owner") + "/" + config.get("git.repo")).equals(body.repository.full_name)) continue;
 
@@ -54,7 +53,7 @@ public class GitHttp {
           //  System.out.println(config.name);
 
             new Thread(() -> {
-                AutoComboCmd autoComboCmd = AutoComboCmd.getInstance();
+                SdbuController autoComboCmd = SdbuController.getInstance();
                 autoComboCmd.Sdbu(autoComboCmd.argToList(config.name));
             }).start();
             break;
