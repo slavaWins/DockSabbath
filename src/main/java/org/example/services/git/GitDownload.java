@@ -33,6 +33,9 @@ public class GitDownload {
         String branch = config.get("git.branch"); // Название ветки
         String path = config.get("git.path"); // Путь к файлу в репозитории
 
+        if (owner == null) return false;
+        if (repo == null) return false;
+        if (branch == null) return false;
 
         if (path.equalsIgnoreCase("/")) path = "";
 

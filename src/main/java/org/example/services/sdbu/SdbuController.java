@@ -2,6 +2,7 @@ package org.example.services.sdbu;
 
 import org.example.core.Fastcommand;
 import org.example.helpers.ChatColor;
+import org.example.helpers.Lang;
 import org.example.services.Combo.ComboController;
 import org.example.services.git.GitDownload;
 import org.example.services.nsconfigs.NsFileReplecer;
@@ -36,27 +37,25 @@ public class SdbuController extends Fastcommand {
 
         String ns = strings[0];
 
-        sendMessage("Sdbu для " + ns);
-        sendMessage("Сейчас будет запущен");
+        sendMessage(Lang.t("sdbu.pre","Сейчас будет запущен полный цикл sdbu(обновления с гита и перезапуск) для: ")+ns);
 
         ComboController composerCmd = ComboController.getInstance();
 
 
-        sendMessage("Скачивание новой версии " + ns);
+        sendMessage(Lang.t("git.start","Скачивание новой версии репозитория для ns: ") + ns);
         if (!GitDownload.downloadGitFromSettings(ns)) {
 
-            sendMessage(ChatColor.RED + "Не удалось скачать гит " + ns);
+            sendMessage(ChatColor.RED +Lang.t("git.error", "Не удалось скачать репозитория для: ") + ns);
             return;
         }
 
-        sendMessage("Остановка нса " + ns);
+        sendMessage(Lang.t("ns.stop","Остановка неймспейса " )+ ns);
         composerCmd.Stop(argToList(ns));
 
         NsFileReplecer.Repleing(ns);
 
-        sendMessage("Билдинг запустить через неск сек ");
+        sendMessage(Lang.t("ns.build.wait","Билдинг запустить через несколько сек. "));
 
-        sendMessage("Билдинг и поднятие " + ns);
         composerCmd.Build(argToList(ns));
 
         NsProcessed.addProcess(strings[0], "docker-compose up --build", false);

@@ -42,7 +42,7 @@ public class IoHelper {
                     try {
                         Files.copy(srcFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     } catch (IOException e) {
-                        System.out.println("Ошибка при копировании файла: " + e.getMessage());
+                        System.out.println( Lang.t("er.copy", "Ошибка при копировании файла: ") + e.getMessage());
                     }
                 }
             }

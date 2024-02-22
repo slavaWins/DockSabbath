@@ -3,12 +3,17 @@ package org.example.services.http;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import org.example.core.yml.YmlConfig;
+import org.example.core.yml.YmlParser;
+import org.example.helpers.IpAttempts;
 import org.example.helpers.IpHelper;
+import org.example.helpers.Lang;
 import org.example.services.http.contracts.RouteContract;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class HttpServiceBase {
@@ -18,7 +23,7 @@ public class HttpServiceBase {
     public static int port = 8000;
 
     public static void addRoute(RouteContract route) {
-        System.out.println("Webhook route: " + getDomain() + route.route);
+        System.out.println("Init route: " + getDomain() + route.route);
         routes.add(route);
     }
 
@@ -38,9 +43,10 @@ public class HttpServiceBase {
             server.setExecutor(null); // creates a default executor
             server.start();
         } catch (IOException e) {
+            System.out.println("ERR");
             throw new RuntimeException(e);
         }
-        System.out.println("http git webhook server on: " + getDomain());
+        System.out.println( Lang.t("http.start","Запущен Http сервер для вебхуков гита и подключение клиентской части. Адрес: ") + getDomain());
     }
 
 
@@ -48,12 +54,17 @@ public class HttpServiceBase {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
 
+            if(!IpAttempts.canTryFromIp(exchange)){
+                exchange.close();
+                return;
+            }
+
             String response = null;
             for (RouteContract route : routes) {
 
 
                 if (!exchange.getRequestURI().toString().startsWith(route.route)) continue;
-                System.out.println(exchange.getRequestURI().toString() + " == " + route.route);
+                //System.out.println(exchange.getRequestURI().toString() + " == " + route.route);
 
 //                if (!exchange.getRequestMethod().toString().equalsIgnoreCase(route.method)) continue;
                 response = route.call.apply(exchange);
@@ -63,23 +74,31 @@ public class HttpServiceBase {
 
             if (response != null) {
 
-                exchange.sendResponseHeaders(200, response.length());
-                OutputStream os = exchange.getResponseBody();
-                os.write(response.getBytes());
-                os.close();
 
+                //response = "кирилица";
+
+                byte[] bytes = response.getBytes("UTF-8");
+
+                exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
+                exchange.sendResponseHeaders(200, bytes.length);
+                OutputStream os = exchange.getResponseBody();
+                os.write(bytes);
+                os.flush();
+                os.close();
 
                 return;
             }
 
-            System.out.println(exchange.getRequestMethod() + " " + exchange.getRequestURI());
-            System.out.println(readReqBody(exchange.getRequestBody()));
+            //System.out.println(exchange.getRequestMethod() + " " + exchange.getRequestURI());
+            //System.out.println(readReqBody(exchange.getRequestBody()));
 
-            response = "not found";
+            exchange.close();
+            return ;
+            /*
             exchange.sendResponseHeaders(404, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
-            os.close();
+            os.close();*/
         }
     }
 

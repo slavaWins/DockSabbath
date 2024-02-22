@@ -1,6 +1,7 @@
 package org.example.services.procces;
 
 import org.example.helpers.ChatColor;
+import org.example.helpers.Lang;
 import org.example.repositories.ComposesFilesRepository;
 
 import java.io.*;
@@ -27,6 +28,10 @@ public class NsProcessed {
     public static ProccesedResponseContract addProcess(String nsName, String cmdParts, boolean logInString) {
 
         ProccesedResponseContract process = anonimProcess(nsName, cmdParts, logInString, 0);
+        if(process==null){
+            System.out.println(Lang.t("procces.null","Не найден процессс для ")+ nsName);
+            return null;
+        }
         processes.add(process.process);
 
         return process;
@@ -45,7 +50,9 @@ public class NsProcessed {
         File folder = ComposesFilesRepository.getNsByName(nsName);
 
         if (folder == null) {
-            System.out.println("Не найдена ns с именем " + nsName);
+
+            System.out.println(Lang.t("ns.not","Не найден неймспейс " ) +nsName);
+
             return null;
         }
 
@@ -89,8 +96,8 @@ public class NsProcessed {
 
             if (!logInString) {
                 muProccess.onExit().thenAccept((Process xmuProccess) -> {
-                    System.out.println(ChatColor.GREEN + "Процесс: " + nsName + " -- " + cmdPartsFull);
-                    System.out.println("Процесс завершился");
+                    System.out.println(ChatColor.GREEN + Lang.t("process","Процесс: ") + nsName + " -- " + cmdPartsFull);
+                    System.out.println(Lang.t("process.end","Процесс завершился"));
                 });
             }
         } catch (IOException e) {

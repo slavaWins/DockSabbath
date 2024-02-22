@@ -1,0 +1,23 @@
+{
+  "process": "Process: ",
+  "up.build": "Building namespace ",
+  "helpcom": "Command help:",
+  "up.all": "Launching namespace ",
+  "ns.not": "Namespace not found ",
+  "com.ns": "Show all namespaces",
+  "notfoundcomand": "Command not found!",
+  "com.help": "Help",
+  "app.stopping": "A safe stop of the application has been initiated. All containers and nymspaces will be stopped now",
+  "gitok": "Folder is ready",
+  "com.up": "Launch compose",
+  "com.sdbu": "Stop, download from git, rebuild, and start. Full update cycle",
+  "git.downloaded": "Repository downloaded and updated",
+  "http.start": "Started Http server for gits webhooks and connecting the client side. Address: ",
+  "com.build": "Compose build",
+  "get.from": "Downloading the new branch version from the repository for ",
+  "procces.null": "Process not found for ",
+  "process.end": "Process has ended",
+  "com.upall": "Launch all composes",
+  "com.download": "Download the latest branch version and save it to /ns-files",
+  "com.pods": "Show pod status"
+}

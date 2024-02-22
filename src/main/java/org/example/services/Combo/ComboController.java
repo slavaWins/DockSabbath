@@ -1,6 +1,7 @@
 package org.example.services.Combo;
 
 import org.example.core.Fastcommand;
+import org.example.helpers.Lang;
 import org.example.repositories.ComposesFilesRepository;
 import org.example.repositories.NsAttachRepository;
 import org.example.services.docker_parser.contracts.NsInfoContract;
@@ -78,7 +79,7 @@ public class ComboController extends Fastcommand {
 
     public void Up(String[] strings) {
 
-        sendMessage("Запуск нса");
+        sendMessage(Lang.t("up.all","Запуск неймспейса " )+ strings[0]);
         NsProcessed.addProcess(strings[0], "docker-compose up", false);
     }
 
@@ -89,30 +90,34 @@ public class ComboController extends Fastcommand {
 
         for (NsInfoContract ns : nsInfos) {
             if (!ns.name.equalsIgnoreCase(strings[0])) continue;
-            System.out.println("/pods " + ns.name);
+           // System.out.println("/pods " + ns.name);
             PodView.pods(ns);
             return;
         }
+        sendMessage(Lang.t("ns.not","Не найден неймспейс " )+ strings[0]);
 
-        sendMessage("Не найден нс " + strings[0]);
     }
 
     public void Stop(String[] strings) {
-        sendMessage("Остановка нса " + strings[0]);
+
+        sendMessage(Lang.t("up.stoping","Отсановка неймспейса " + strings[0]));
         NsProcessed.addProcess(strings[0], "docker-compose stop", false);
     }
 
 
     public void UpAll(String[] strings) {
+        sendMessage(Lang.t("up.all","Запуск всех неймспейсов"));
+
         for (String name : ComposesFilesRepository.getNs()) {
-            sendMessage("Запуск нса");
+
             NsProcessed.addProcess(name, "docker-compose up", false);
         }
     }
 
     public void Build(String[] strings) {
 
-        sendMessage("Билд нса");
+        sendMessage(Lang.t("up.build","Билдинг неймспейса " )+ strings[0]);
+
         NsProcessed.addProcess(strings[0], "docker-compose build", false);
     }
 

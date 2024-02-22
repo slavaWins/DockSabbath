@@ -2,10 +2,14 @@ package org.example;
 
 import org.example.core.Fastcommand;
 import org.example.helpers.ChatColor;
+import org.example.helpers.Lang;
 import org.example.helpers.LogoDesignHelper;
+import org.example.helpers.MainConfig;
 import org.example.services.Combo.ComboController;
+import org.example.services.api.ClientReadingApi;
 import org.example.services.git.GitCmd;
 import org.example.services.git.GitHttp;
+import org.example.services.hashing.HashingService;
 import org.example.services.http.HttpServiceBase;
 import org.example.services.sdbu.SdbuController;
 
@@ -18,7 +22,11 @@ public class Main {
 
     public static void onEnable() {
 
+
         LogoDesignHelper.logo();
+
+
+        MainConfig.get();
 
         HttpServiceBase.start();
 
@@ -26,12 +34,14 @@ public class Main {
         GitHttp gitHttp = new GitHttp();
         gitHttp.init();
 
+        new ClientReadingApi().init();
 
         comanders.add(new ComboController());
         comanders.add(new GitCmd());
         comanders.add(new SdbuController());
+        // HashingService.main();
 
-        ComboController.ShowAllNs();
+        //ComboController.ShowAllNs();
 
         //SertificateCheckrt.Generate();
     }
@@ -43,7 +53,7 @@ public class Main {
             public void run() {
 
                 // Код выполняемый при закрытии приложения
-                System.out.println("Приложение завершено");
+                System.out.println( Lang.t("app.stopping","Начата безопасная остановка приложения. Сейчас будут остановлены все контейнеры и неймспейсы."));
                 onDisable();
             }
         });
@@ -59,12 +69,40 @@ public class Main {
     public static void onDisable() {
         if (isDisbled) return;
         isDisbled = true;
-        System.out.println("Disabling");
-       // ComboController.StopAll();
+        // ComboController.StopAll();
 
-        System.out.println("DISABLED APP");
+        System.out.println("Disabled.");
     }
 
+
+    public static void commandListener(String command) {
+        if (command.equals("stop")) {
+            onDisable();
+            return;
+        }
+
+        if (command.equals("help")) {
+            for (Fastcommand comander : comanders) {
+                comander.sendHelpCommand(new String[0]);
+            }
+            return;
+        }
+
+        boolean isClosed = false;
+        for (Fastcommand comander : comanders) {
+            if (comander.input(command)) {
+                isClosed = true;
+                return;
+            }
+        }
+
+        if (!isClosed) {
+            System.out.println(ChatColor.RED +  Lang.t("notfoundcomand","Команда не найдена!") + ChatColor.WHITE + " Use command /help");
+             /*   for (Fastcommand comander : comanders) {
+                    comander.sendHelpCommand(new String[0]);
+                }*/
+        }
+    }
 
     public static void run() {
 
@@ -73,32 +111,7 @@ public class Main {
         while (true) {
             String command = scanner.nextLine();
 
-            if (command.equals("stop")) {
-                onDisable();
-                return;
-            }
-
-            if (command.equals("help")) {
-                for (Fastcommand comander : comanders) {
-                    comander.sendHelpCommand(new String[0]);
-                }
-                continue;
-            }
-
-            boolean isClosed = false;
-            for (Fastcommand comander : comanders) {
-                if (comander.input(command)) {
-                    isClosed = true;
-                    break;
-                }
-            }
-
-            if (!isClosed) {
-                System.out.println(ChatColor.RED + "Command not found" + ChatColor.WHITE + " use command /help");
-             /*   for (Fastcommand comander : comanders) {
-                    comander.sendHelpCommand(new String[0]);
-                }*/
-            }
+            commandListener(command);
         }
 
     }

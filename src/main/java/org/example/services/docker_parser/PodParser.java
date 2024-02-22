@@ -94,7 +94,7 @@ public class PodParser {
 
     public static StatsContainerContract getContainerStats(String containerId) {
         if (containerId == null) return null;
-        System.out.println("getContainerStats " + containerId);
+        //System.out.println("getContainerStats " + containerId);
 
         String txt = NsProcessed.anonimProcess("front", "docker stats " + containerId, true, 2).text;
         String[] lines = txt.split("\n");

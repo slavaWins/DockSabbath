@@ -2,6 +2,7 @@ package org.example.core;
 
 
 import org.example.helpers.ChatColor;
+import org.example.helpers.Lang;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +53,13 @@ public class Fastcommand {
     }
 
     public void sendHelpCommand(String[] args) {
-        String text = " Helps:";
+        String text =  Lang.t("helpcom","Хелп по командам:");
         for (CommandElemet com : commands) {
             text += "\n" + "/" + rootCommand + " " + com.subcommond;
             for (String arg : com.arguments) {
                 text += " <" + arg + ">";
             }
-            text += ChatColor.YELLOW+ "   " + com.descrip;
+            text += ChatColor.YELLOW+ "   " +  Lang.t("com."+com.subcommond, com.descrip);
         }
         sendMessage(text);
 

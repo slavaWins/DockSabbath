@@ -1,6 +1,7 @@
 package org.example.services.git;
 
 import org.example.core.Fastcommand;
+import org.example.helpers.Lang;
 import org.example.services.nsconfigs.NsFileReplecer;
 
 public class GitCmd extends Fastcommand {
@@ -35,10 +36,10 @@ public class GitCmd extends Fastcommand {
 
     public void Download(String[] strings) {
 
-        sendMessage("Скачиание с гита");
+        sendMessage( Lang.t("get.from","Скачивание новой версии ветки с репозитория для ")+ strings[0]);
         GitDownload.downloadGitFromSettings(strings[0]);
         NsFileReplecer.Repleing(strings[0]);
-        sendMessage("Папка готова");
+        sendMessage( Lang.t("git.downloaded","Репозиторий скачен и обновлен"));
     }
 
 
