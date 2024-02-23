@@ -67,7 +67,7 @@ public class ClientReadingApi {
             return new Gson().toJson(responseContract.error("Client api disabled edit config.json in server"));
         }
 
-        if (!HashingApi.verify(body.hash, body.data, mainConfig.githubWebhookToken)) {
+        if (!HashingApi.verify(body.hash, body.data, mainConfig.clientApiToken)) {
             return new Gson().toJson(responseContract.error("hash is not correct"));
         }
 

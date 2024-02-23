@@ -9,7 +9,7 @@ import java.util.Map;
 public class IpAttempts {
     private static Map<String, Integer> attemptsMap = new HashMap<>();
 
-    private static int attemptsMax = 3;
+    private static int attemptsMax = 17;
 
     public static boolean canTryFromIp(String ip) {
         if (!attemptsMap.containsKey(ip)) {

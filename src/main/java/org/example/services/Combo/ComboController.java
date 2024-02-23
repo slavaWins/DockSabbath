@@ -19,7 +19,7 @@ public class ComboController extends Fastcommand {
     }
 
     public ComboController() {
-        super("combo");
+        super("Управление неймспейсами");
 
         instance = this;
 
@@ -44,6 +44,19 @@ public class ComboController extends Fastcommand {
         commands.add(com);
 
         com = new CommandElemet();
+        com.subcommond = "stop";
+        com.descrip = "Остановить ns";
+        com.event = this::Stop;
+        com.arguments.add("ns");
+        commands.add(com);
+
+        com = new CommandElemet();
+        com.subcommond = "stopall";
+        com.descrip = "Остановить все ns";
+        com.event = this::StopAllCommand;
+        commands.add(com);
+
+        com = new CommandElemet();
         com.subcommond = "upall";
         com.descrip = "Запустить все композы";
         com.event = this::UpAll;
@@ -52,11 +65,15 @@ public class ComboController extends Fastcommand {
 
         com = new CommandElemet();
         com.subcommond = "build";
-        com.descrip = "Билдить композ";
+        com.descrip = "Билдить коhмпоз";
         com.event = this::Build;
         com.arguments.add("ns");
         commands.add(com);
 
+    }
+
+    private void StopAllCommand(String[] strings) {
+        StopAll();
     }
 
     public static void ShowAllNs() {

@@ -69,8 +69,7 @@ public class Main {
     public static void onDisable() {
         if (isDisbled) return;
         isDisbled = true;
-        // ComboController.StopAll();
-
+        ComboController.StopAll();
         System.out.println("Disabled.");
     }
 
@@ -109,9 +108,15 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            String command = scanner.nextLine();
 
+            String command = scanner.nextLine();
+            if(isDisbled){
+                System.out.println("CTRL+C to exit");
+                continue;
+            }
             commandListener(command);
+
+
         }
 
     }

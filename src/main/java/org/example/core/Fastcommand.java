@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 public class Fastcommand {
 
     public boolean onlyOp = true;
-    private final String rootCommand;
+    private final String section;
     public List<CommandElemet> commands = new ArrayList<>();
 
 
@@ -28,14 +28,14 @@ public class Fastcommand {
 
     public Fastcommand(String rootCommand) {
 
-        this.rootCommand = rootCommand;
+        this.section = rootCommand;
 
-
+/*
         CommandElemet com = new CommandElemet();
         com.subcommond = "help";
         com.descrip = "Help";
         com.event = this::sendHelpCommand;
-        commands.add(com);
+        commands.add(com);*/
     }
 
     public static class CommandElemet {
@@ -48,18 +48,27 @@ public class Fastcommand {
 
     public void sendMessage(String msg) {
 
-        System.out.println(ChatColor.BLUE + "[" + rootCommand + "] " + ChatColor.WHITE + msg);
+        System.out.println(  ChatColor.WHITE + msg);
 
     }
 
     public void sendHelpCommand(String[] args) {
-        String text =  Lang.t("helpcom","Хелп по командам:");
+        String text =  "\n"+ ChatColor.RESET+ Lang.t("section."+getClass().getSimpleName(),section) +ChatColor.RESET;
         for (CommandElemet com : commands) {
-            text += "\n" + "/" + rootCommand + " " + com.subcommond;
+            String line ="";
+
+            line += "" + "  " +  ChatColor.GREEN+ com.subcommond;
             for (String arg : com.arguments) {
-                text += " <" + arg + ">";
+                line += " <" + arg + ">";
             }
-            text += ChatColor.YELLOW+ "   " +  Lang.t("com."+com.subcommond, com.descrip);
+
+            int margitn = 22;
+            for(int i= line.length();i<margitn;i++){
+                line += " ";
+            }
+            line += ChatColor.WHITE+ "   " +  Lang.t("com."+com.subcommond, com.descrip);
+
+            text += "\n" + line;
         }
         sendMessage(text);
 
@@ -77,23 +86,17 @@ public class Fastcommand {
 
 
 
-        if (!_root.equals(rootCommand)) return false;
+
+        String[] args = new String[Math.max(0, exploded.length - 1)];
 
 
-        String subcomand = "";
-        if (exploded.length > 1) subcomand = exploded[1];
-
-
-        String[] args = new String[Math.max(0, exploded.length - 2)];
-
-
-        if(exploded.length - 2>0){
-             for (int i = 2; i < exploded.length; i++) {
-                 args[i-2] = exploded[i ];
+        if(exploded.length - 1>0){
+             for (int i = 1; i < exploded.length; i++) {
+                 args[i-1] = exploded[i ];
              }
         }
 
-        return onCommand(subcomand, args);
+        return onCommand(_root, args);
 
 
     }
@@ -108,6 +111,9 @@ public class Fastcommand {
 
         for (CommandElemet com : commands) {
             if (!com.subcommond.equalsIgnoreCase(subcommand)) continue;
+
+
+           // System.out.println(subcommand+" / " + com.arguments.size() + " == "  +  args.length);
 
 
             if (com.arguments.size() != args.length ) continue;

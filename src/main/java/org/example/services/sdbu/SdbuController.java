@@ -12,7 +12,7 @@ public class SdbuController extends Fastcommand {
 
 
     public SdbuController() {
-        super("combo");
+        super("Автоматизация");
 
         instance = this;
 

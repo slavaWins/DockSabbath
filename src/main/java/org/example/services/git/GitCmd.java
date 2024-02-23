@@ -15,7 +15,7 @@ public class GitCmd extends Fastcommand {
 
 
     public GitCmd() {
-        super("git");
+        super("Гитхаб и загрузка репозиториев");
 
 
         instance = this;
@@ -24,7 +24,7 @@ public class GitCmd extends Fastcommand {
         CommandElemet com;
 
         com = new CommandElemet();
-        com.subcommond = "download";
+        com.subcommond = "gitupd";
         com.descrip = "Скачать последнию версию ветки и загрузить в /ns-files";
         com.event = this::Download;
         com.arguments.add("ns");
