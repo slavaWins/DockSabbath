@@ -2,7 +2,7 @@ package org.example.helpers;
 
 public class LogoDesignHelper {
 
-    public static String version = "0.7.0";
+    public static String version = "0.7.1";
 
     public static void logo() {
 

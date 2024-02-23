@@ -10,14 +10,14 @@ public class PodView {
 
     public static void ns(List<NsInfoContract> contracts) {
 
-        System.out.printf("%-30s %-15s %-15s %-20s\n", "NAME",   "STATUS", "AGE", "REPO");
+        System.out.printf("%-26s %-19s %-15s %-20s\n", "NAME",   "STATUS", "AGE", "REPO");
 
         for (NsInfoContract contract : contracts) {
 
             if (contract.compose == null) {
-                System.out.printf("%-30s %-15s %-15s %-20s\n", contract.name, "Disabled", "N/A", contract.repo);
+                System.out.printf("%-26s %-19s %-15s %-20s\n", contract.name, contract.errorStatus == null? "Disabled" : contract.errorStatus, "N/A", contract.repo);
             } else {
-                System.out.printf("%-30s %-15s %-15s %-20s\n", contract.name, contract.compose.status, contract.getAge(), contract.repo);
+                System.out.printf("%-26s %-19s %-15s %-20s\n", contract.name,  contract.errorStatus == null? contract.compose.status : contract.errorStatus, contract.getAge(), contract.repo);
             }
 
         }

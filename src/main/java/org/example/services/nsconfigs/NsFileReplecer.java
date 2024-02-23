@@ -29,7 +29,7 @@ public class NsFileReplecer {
 
         File dir = ComposesFilesRepository.getNsByName(ns);
         if (dir == null) {
-            System.out.println("ERROR Dir");
+            System.out.println("Not exist directory "+ns);
             return;
         }
 

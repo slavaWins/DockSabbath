@@ -15,28 +15,34 @@ public class NsAttachRepository {
 
         List<NsInfoContract> lists = new ArrayList<NsInfoContract>();
 
-        List<PodStatusContract> podsList = PodParser.GetPodsInfo();
-        List<ComposeContract> composesList = PodParser.GetComposits();
 
 
         for (YmlConfig config : NsConfigsRepository.getNsConfgis()) {
             NsInfoContract attach = new NsInfoContract();
             attach.name = config.name;
 
+            lists.add(attach);
+
             if (config.get("git.owner") != null) {
                 attach.repo = config.get("git.owner") + "/" + config.get("git.repo") + ":" + config.get("git.branch");
             }
-            for (ComposeContract compose : composesList) {
+
+            if(ComposesFilesRepository.getNsByName(config.name)==null){
+                attach.errorStatus = "Not exist ns-files/";
+                continue;
+            }
+
+            for (ComposeContract compose : PodParser.GetComposits(config.name)) {
                 if (!compose.name.equalsIgnoreCase(config.name)) continue;
                 attach.compose = compose;
             }
 
-            for (PodStatusContract pod : podsList) {
+            for (PodStatusContract pod : PodParser.GetPodsInfo(config.name)) {
                 if (!pod.ns.equalsIgnoreCase(config.name)) continue;
                 attach.pods.add(pod);
             }
 
-            lists.add(attach);
+
         }
 
         return lists;

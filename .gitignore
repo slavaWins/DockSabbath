@@ -7,7 +7,7 @@ target/
 ns
 ns-files
 _temp
-
+release
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

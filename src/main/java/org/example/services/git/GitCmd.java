@@ -36,10 +36,14 @@ public class GitCmd extends Fastcommand {
 
     public void Download(String[] strings) {
 
-        sendMessage( Lang.t("get.from","Скачивание новой версии ветки с репозитория для ")+ strings[0]);
-        GitDownload.downloadGitFromSettings(strings[0]);
+        sendMessage(Lang.t("get.from", "Скачивание новой версии ветки с репозитория для ") + strings[0]);
+        if (!GitDownload.downloadGitFromSettings(strings[0])) {
+
+            sendMessage(Lang.t("git.notfound", "Не удалось скачать репозиторий для ")+ strings[0]);
+            return;
+        }
         NsFileReplecer.Repleing(strings[0]);
-        sendMessage( Lang.t("git.downloaded","Репозиторий скачен и обновлен"));
+        sendMessage(Lang.t("git.downloaded", "Репозиторий скачен и обновлен"));
     }
 
 

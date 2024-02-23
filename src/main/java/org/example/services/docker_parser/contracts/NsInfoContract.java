@@ -12,6 +12,7 @@ public class NsInfoContract {
     public ComposeContract compose;
     public List<PodStatusContract> pods = new ArrayList<PodStatusContract>();
     public String repo = "none";
+    public String errorStatus;
 
     public String getAge() {
 

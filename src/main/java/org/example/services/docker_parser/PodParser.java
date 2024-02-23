@@ -12,11 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PodParser {
-    public static List<ComposeContract> GetComposits() {
+    public static List<ComposeContract> GetComposits(String nsName) {
 
         List<ComposeContract> containers = new ArrayList<ComposeContract>();
 
-        ProccesedResponseContract responseContract = NsProcessed.anonimProcess("front", "docker-compose ls", true, 0);
+        ProccesedResponseContract responseContract = NsProcessed.anonimProcess(nsName, "docker-compose ls", true, 0);
+
+        if(responseContract==null){
+            System.out.println("GetComposits Procces not found. nsName:" + nsName);
+            return containers;
+        }
 
         String txt = responseContract.text;
         //System.out.println(txt);
@@ -50,11 +55,16 @@ public class PodParser {
         return containers;
     }
 
-    public static List<PodStatusContract> GetPodsInfo() {
+    public static List<PodStatusContract> GetPodsInfo(String nsName) {
 
         List<PodStatusContract> containers = new ArrayList<PodStatusContract>();
 
-        ProccesedResponseContract responseContract = NsProcessed.anonimProcess("front", "docker ps", true, 0);
+        ProccesedResponseContract responseContract = NsProcessed.anonimProcess(nsName, "docker ps", true, 0);
+
+        if(responseContract==null){
+            System.out.println("Procces not found");
+            return containers;
+        }
 
         String txt = responseContract.text;
         // System.out.println(txt);
@@ -92,11 +102,11 @@ public class PodParser {
     }
 
 
-    public static StatsContainerContract getContainerStats(String containerId) {
+    public static StatsContainerContract getContainerStats(String ns,String containerId) {
         if (containerId == null) return null;
         //System.out.println("getContainerStats " + containerId);
 
-        String txt = NsProcessed.anonimProcess("front", "docker stats " + containerId, true, 2).text;
+        String txt = NsProcessed.anonimProcess(ns, "docker stats " + containerId, true, 2).text;
         String[] lines = txt.split("\n");
 
         if (lines.length < 3) return null;

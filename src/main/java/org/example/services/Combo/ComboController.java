@@ -117,7 +117,7 @@ public class ComboController extends Fastcommand {
 
     public void Stop(String[] strings) {
 
-        sendMessage(Lang.t("up.stoping","Отсановка неймспейса " + strings[0]));
+        sendMessage(Lang.t("up.stoping","Остановка неймспейса " )+ strings[0]);
         NsProcessed.addProcess(strings[0], "docker-compose stop", false);
     }
 
