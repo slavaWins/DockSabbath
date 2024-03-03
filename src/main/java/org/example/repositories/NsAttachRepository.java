@@ -16,6 +16,8 @@ public class NsAttachRepository {
         List<NsInfoContract> lists = new ArrayList<NsInfoContract>();
 
 
+        List<ComposeContract> compositsList =  PodParser.GetComposits();
+        List<PodStatusContract> podsList =   PodParser.GetPodsInfo();
 
         for (YmlConfig config : NsConfigsRepository.getNsConfgis()) {
             NsInfoContract attach = new NsInfoContract();
@@ -32,13 +34,15 @@ public class NsAttachRepository {
                 continue;
             }
 
-            for (ComposeContract compose : PodParser.GetComposits(config.name)) {
+            for (ComposeContract compose : compositsList) {
                 if (!compose.name.equalsIgnoreCase(config.name)) continue;
                 attach.compose = compose;
             }
 
-            for (PodStatusContract pod : PodParser.GetPodsInfo(config.name)) {
-                if (!pod.ns.equalsIgnoreCase(config.name)) continue;
+            for (PodStatusContract pod :podsList) {
+  //              System.out.println(pod.names + ":" + pod.containerId+ ":" + pod.ns + ":" + pod.age);
+//                if (!pod.ns.equalsIgnoreCase(config.name)) continue;
+                if (!pod.names.startsWith(config.name+"-")) continue;
                 attach.pods.add(pod);
             }
 

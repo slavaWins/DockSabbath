@@ -18,7 +18,7 @@ public class PodStatusContract {
 
 
     public StatsContainerContract getStat() {
-        return PodParser.getContainerStats(ns, containerId);
+        return PodParser.getContainerStats(names, containerId);
     }
 
     public void Log() {

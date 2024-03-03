@@ -83,7 +83,7 @@ public class ClientReadingApi {
         PrintStream ps = new PrintStream(baos);
         System.setOut(ps);
 
-        Main.commandListener(body.data);
+        Main.commandHandle(body.data);
 
         consoleOutput = baos.toString();
         System.setOut(originalOut);

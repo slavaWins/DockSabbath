@@ -51,7 +51,9 @@ public class NsFileReplecer {
                 if (to.indexOf("@ip")>-1) {
                     to = to.replace("@ip", IpHelper.getIp());
                 }
-                contentFile = contentFile.replace(entry.getKey(), to);
+                for(int i=0;i<5;i++) {
+                    contentFile = contentFile.replaceAll(entry.getKey(), to);
+                }
             }
             IoHelper.writeFile(composeFile, contentFile);
 

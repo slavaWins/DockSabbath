@@ -1,15 +1,11 @@
 package org.example;
 
 import org.example.core.Fastcommand;
-import org.example.helpers.ChatColor;
-import org.example.helpers.Lang;
-import org.example.helpers.LogoDesignHelper;
-import org.example.helpers.MainConfig;
+import org.example.helpers.*;
 import org.example.services.Combo.ComboController;
 import org.example.services.api.ClientReadingApi;
 import org.example.services.git.GitCmd;
 import org.example.services.git.GitHttp;
-import org.example.services.hashing.HashingService;
 import org.example.services.http.HttpServiceBase;
 import org.example.services.sdbu.SdbuController;
 
@@ -18,77 +14,68 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static List<Fastcommand> comanders = new ArrayList<Fastcommand>();
-
-    public static void onEnable() {
-
-
-        LogoDesignHelper.logo();
-
-
-        MainConfig.get();
-
-        HttpServiceBase.start();
-
-
-        GitHttp gitHttp = new GitHttp();
-        gitHttp.init();
-
-        new ClientReadingApi().init();
-
-        comanders.add(new ComboController());
-        comanders.add(new GitCmd());
-        comanders.add(new SdbuController());
-        // HashingService.main();
-
-        //ComboController.ShowAllNs();
-
-        //SertificateCheckrt.Generate();
-    }
-
+    private static List<Fastcommand> commandServicesHandlers = new ArrayList<Fastcommand>();
+    static boolean isDisabled = false;
 
     public static void main(String[] args) {
-
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
-
                 // Код выполняемый при закрытии приложения
-                System.out.println( Lang.t("app.stopping","Начата безопасная остановка приложения. Сейчас будут остановлены все контейнеры и неймспейсы."));
+                System.out.println(Lang.t("app.stopping", "Начата безопасная остановка приложения. Сейчас будут остановлены все контейнеры и неймспейсы."));
                 onDisable();
             }
         });
 
         onEnable();
         run();
-
-
     }
 
-    static boolean isDisbled = false;
+
+    public static void onEnable() {
+        LogoDesignHelper.logo();
+
+        MainConfig.init();
+
+        HttpServiceBase.start();
+
+        new GitHttp().init();
+        new ClientReadingApi().init();
+
+
+        commandServicesHandlers.add(new ComboController());
+        commandServicesHandlers.add(new GitCmd());
+        commandServicesHandlers.add(new SdbuController());
+    }
+
 
     public static void onDisable() {
-        if (isDisbled) return;
-        isDisbled = true;
+        if (isDisabled) return;
+        isDisabled = true;
         ComboController.StopAll();
         System.out.println("Disabled.");
     }
 
 
-    public static void commandListener(String command) {
+    public static void commandHandle(String command) {
         if (command.equals("stop")) {
             onDisable();
             return;
         }
 
+        if (command.equals("stop-safely")) {
+            isDisabled = true;
+            return;
+        }
+
         if (command.equals("help")) {
-            for (Fastcommand comander : comanders) {
+            for (Fastcommand comander : commandServicesHandlers) {
                 comander.sendHelpCommand(new String[0]);
             }
             return;
         }
 
         boolean isClosed = false;
-        for (Fastcommand comander : comanders) {
+        for (Fastcommand comander : commandServicesHandlers) {
             if (comander.input(command)) {
                 isClosed = true;
                 return;
@@ -96,27 +83,19 @@ public class Main {
         }
 
         if (!isClosed) {
-            System.out.println(ChatColor.RED +  Lang.t("notfoundcomand","Команда не найдена!") + ChatColor.WHITE + " Use command /help");
-             /*   for (Fastcommand comander : comanders) {
-                    comander.sendHelpCommand(new String[0]);
-                }*/
+            System.out.println(ChatColor.RED + Lang.t("notfoundcomand", "Команда не найдена!") + ChatColor.WHITE + " Use command /help");
         }
     }
 
     public static void run() {
-
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-
             String command = scanner.nextLine();
-            if(isDisbled){
-                System.out.println("CTRL+C to exit");
-                continue;
+            if (isDisabled) {
+                break;
             }
-            commandListener(command);
-
-
+            commandHandle(command);
         }
 
     }

@@ -4,6 +4,7 @@ import org.example.helpers.ChatColor;
 import org.example.helpers.Lang;
 import org.example.repositories.ComposesFilesRepository;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,10 @@ public class NsProcessed {
 
         File folder = ComposesFilesRepository.getNsByName(nsName);
 
+        if(nsName.equalsIgnoreCase("/")){
+            folder = new File("./");
+        }
+
         if (folder == null) {
 
             System.out.println(Lang.t("ns.not","Не найден неймспейс " ) +nsName);
@@ -56,8 +61,7 @@ public class NsProcessed {
             return null;
         }
 
-
-        //  System.out.println(ChatColor.BRIGHT_BLACK + " STARTING");
+        //  System.out.println(folder.getAbsolutePath()+ " " + cmdParts);
 
         ProcessBuilder processBuilder = new ProcessBuilder(cmdParts)
                 .directory(folder)

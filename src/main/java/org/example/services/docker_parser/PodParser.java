@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PodParser {
-    public static List<ComposeContract> GetComposits(String nsName) {
+    public static List<ComposeContract> GetComposits() {
 
         List<ComposeContract> containers = new ArrayList<ComposeContract>();
 
-        ProccesedResponseContract responseContract = NsProcessed.anonimProcess(nsName, "docker-compose ls", true, 0);
+        ProccesedResponseContract responseContract = NsProcessed.anonimProcess("/", "docker-compose ls", true, 0);
 
-        if(responseContract==null){
-            System.out.println("GetComposits Procces not found. nsName:" + nsName);
+        if (responseContract == null) {
+            System.out.println("GetComposits Procces not found" );
             return containers;
         }
 
@@ -55,19 +55,19 @@ public class PodParser {
         return containers;
     }
 
-    public static List<PodStatusContract> GetPodsInfo(String nsName) {
+    public static List<PodStatusContract> GetPodsInfo() {
 
         List<PodStatusContract> containers = new ArrayList<PodStatusContract>();
 
-        ProccesedResponseContract responseContract = NsProcessed.anonimProcess(nsName, "docker ps", true, 0);
+        ProccesedResponseContract responseContract = NsProcessed.anonimProcess("/", "docker ps", true, 0);
 
-        if(responseContract==null){
+        if (responseContract == null) {
             System.out.println("Procces not found");
             return containers;
         }
 
         String txt = responseContract.text;
-        // System.out.println(txt);
+       //  System.out.println(txt);
 
         int lineNumber = 0;
         for (String line : txt.split("\n")) {
@@ -76,6 +76,11 @@ public class PodParser {
             if (lineNumber == 1) continue;
 
             String[] parts = line.split("\\s{2,}");
+
+            if (parts.length < 7) {
+                System.out.println("RAW:"+line);
+                continue;
+            }
 
             PodStatusContract contract = new PodStatusContract();
             contract.containerId = parts[0];
@@ -102,13 +107,23 @@ public class PodParser {
     }
 
 
-    public static StatsContainerContract getContainerStats(String ns,String containerId) {
+    public static StatsContainerContract getContainerStats(String ns, String containerId) {
         if (containerId == null) return null;
         //System.out.println("getContainerStats " + containerId);
 
-        String txt = NsProcessed.anonimProcess(ns, "docker stats " + containerId, true, 2).text;
+
+        ProccesedResponseContract responseContract = NsProcessed.anonimProcess("/","docker stats " + containerId, true, 2);
+
+        if (responseContract == null) {
+            System.out.println("getContainerStats " + ns+ " " + containerId);
+            System.out.println("Procces getContainerStats not found");
+            return null;
+        }
+
+        String txt = responseContract.text;
         String[] lines = txt.split("\n");
 
+       // System.out.println(txt);
         if (lines.length < 3) return null;
 
         String[] stats = lines[2].split("\\s{2,}");

@@ -10,9 +10,13 @@ public class TimeParseHelper {
     public static Instant convertToUnixDate(String input) {
         input= input.toLowerCase();
 
+
+
         Pattern pattern = Pattern.compile("(\\d+)\\s*(seconds?|minutes?|hour|hours?|weeks?|months?|years?)");
         Matcher matcher = pattern.matcher(input);
 
+        //if(input.indexOf("about a minute")!= -1) return Instant.now().minus(1, ChronoUnit.MINUTES);
+        if(input.indexOf("about a minute")!= -1) return Instant.now().minus(1, ChronoUnit.MINUTES);
         if(input.indexOf("about an minute")!= -1) return Instant.now().minus(1, ChronoUnit.MINUTES);
         if(input.indexOf("about an hour")!= -1) return Instant.now().minus(1, ChronoUnit.HOURS);
         if(input.indexOf("about an day")!= -1) return Instant.now().minus(1, ChronoUnit.DAYS);
@@ -26,9 +30,11 @@ public class TimeParseHelper {
             switch (unit) {
                 case "second":
                 case "seconds":
+                  //  System.out.println("x4 SEC " + amount);
                     return Instant.now().minus(amount, ChronoUnit.SECONDS);
                 case "minute":
                 case "minutes":
+                  //  System.out.println("x4 MINUTES " + amount);
                     return Instant.now().minus(amount, ChronoUnit.MINUTES);
                 case "hour":
                 case "hours":
@@ -43,10 +49,16 @@ public class TimeParseHelper {
                 case "years":
                     return Instant.now().minus(amount, ChronoUnit.YEARS);
                 default:
-                    throw new IllegalArgumentException("Invalid time unit: " + unit);
+                    System.out.println("NO MATH:"+ input);
+                    return Instant.now().minus(amount, ChronoUnit.MINUTES);
+                   // throw new IllegalArgumentException("Invalid time unit: " + unit);
             }
         } else {
-            throw new IllegalArgumentException("Invalid input format");
+
+            System.out.println("NO MATH:"+ input);
+            return Instant.now().minus(1, ChronoUnit.MINUTES);
+
+            //throw new IllegalArgumentException("Invalid input format");
         }
     }
 

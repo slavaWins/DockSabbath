@@ -17,12 +17,15 @@ public class NsInfoContract {
     public String getAge() {
 
         Instant ageMax = null;
-        long ageMaxL = 0;
+        long ageMaxL = -1;
         for(PodStatusContract pod : pods) {
+
 
             if(pod.age.getEpochSecond()> ageMaxL) {
                 ageMaxL=  pod.age.getEpochSecond();
                 ageMax = pod.age;
+
+
             }
         }
 

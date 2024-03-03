@@ -47,6 +47,10 @@ public class MainConfig {
     }
 
 
+    public static void init() {
+        get();
+    }
+
     public static MainConfig get() {
 
         MainConfig mainConfig = null;
