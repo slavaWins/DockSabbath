@@ -31,7 +31,7 @@ public class Main {
     }
 
 
-    public static void onEnable() {
+    private static void onEnable() {
         LogoDesignHelper.logo();
 
         MainConfig.init();
@@ -48,14 +48,30 @@ public class Main {
     }
 
 
-    public static void onDisable() {
+    private static void onDisable() {
         if (isDisabled) return;
         isDisabled = true;
         ComboController.StopAll();
         System.out.println("Disabled.");
     }
 
+    private static void run() {
+        Scanner scanner = new Scanner(System.in);
 
+        while (true) {
+            String command = scanner.nextLine();
+            if (isDisabled) {
+                break;
+            }
+            commandHandle(command);
+        }
+
+    }
+
+    /**
+     * Может выполняться с удаленного клиента
+     * @param command
+     */
     public static void commandHandle(String command) {
         if (command.equals("stop")) {
             onDisable();
@@ -87,16 +103,5 @@ public class Main {
         }
     }
 
-    public static void run() {
-        Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            String command = scanner.nextLine();
-            if (isDisabled) {
-                break;
-            }
-            commandHandle(command);
-        }
-
-    }
 }
