@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import org.example.core.yml.YmlConfig;
 import org.example.helpers.IpAttempts;
-import org.example.helpers.MainConfig;
+import org.example.helpers.AppConfiguration;
 import org.example.repositories.NsConfigsRepository;
 import org.example.services.git.contracts.GitWebHookContract;
 import org.example.services.http.HttpServiceBase;
@@ -18,7 +18,7 @@ public class GitHttp {
         RouteContract contract = new RouteContract();
 
 
-        contract.route = "/api/git/update/" + MainConfig.get().githubWebhookToken ;
+        contract.route = "/api/git/update/" + AppConfiguration.get().githubWebhookToken ;
         contract.call = this::ActionRoute;
         contract.method = "POST";
 

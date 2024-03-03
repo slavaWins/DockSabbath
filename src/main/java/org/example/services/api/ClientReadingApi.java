@@ -6,7 +6,7 @@ import com.sun.net.httpserver.HttpExchange;
 import org.example.Main;
 import org.example.helpers.ChatColor;
 import org.example.helpers.IpAttempts;
-import org.example.helpers.MainConfig;
+import org.example.helpers.AppConfiguration;
 import org.example.services.hashing.HashingApi;
 import org.example.services.http.HttpServiceBase;
 import org.example.services.http.contracts.RouteContract;
@@ -60,14 +60,14 @@ public class ClientReadingApi {
             System.out.println("not corect");
             return new Gson().toJson(responseContract.error("hash is not correct"));
         }
-        MainConfig mainConfig = MainConfig.get();
+        AppConfiguration appConfiguration = AppConfiguration.get();
 
 
-        if (!mainConfig.clientApiEnabled) {
+        if (!appConfiguration.clientApiEnabled) {
             return new Gson().toJson(responseContract.error("Client api disabled edit config.json in server"));
         }
 
-        if (!HashingApi.verify(body.hash, body.data, mainConfig.clientApiToken)) {
+        if (!HashingApi.verify(body.hash, body.data, appConfiguration.clientApiToken)) {
             return new Gson().toJson(responseContract.error("hash is not correct"));
         }
 

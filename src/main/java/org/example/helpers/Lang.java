@@ -6,8 +6,6 @@ import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
-import java.util.Map;
 
 public class Lang {
 
@@ -56,7 +54,7 @@ public class Lang {
 
         if (lang != null) return lang;
 
-        lang = MainConfig.get().lang ;
+        lang = AppConfiguration.get().lang ;
         if(lang==null)lang="en";
         load();
         return lang;

@@ -6,7 +6,7 @@ import org.example.core.yml.YmlConfig;
 
 import java.io.File;
 
-public class MainConfig {
+public class AppConfiguration {
 
 
     public YmlConfig config;
@@ -51,16 +51,16 @@ public class MainConfig {
         get();
     }
 
-    public static MainConfig get() {
+    public static AppConfiguration get() {
 
-        MainConfig mainConfig = null;
+        AppConfiguration appConfiguration = null;
 
         String file = IoHelper.readFile(new File("./config.json"));
 
-        mainConfig = new Gson().fromJson(file, MainConfig.class);
-        mainConfig.check();
+        appConfiguration = new Gson().fromJson(file, AppConfiguration.class);
+        appConfiguration.check();
 
-        return mainConfig;
+        return appConfiguration;
 
     }
 }

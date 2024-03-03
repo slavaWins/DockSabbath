@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.contracts.CoreAppCommandsEnum;
 import org.example.core.Fastcommand;
 import org.example.helpers.*;
 import org.example.services.Combo.ComboController;
@@ -32,9 +33,9 @@ public class Main {
 
 
     private static void onEnable() {
-        LogoDesignHelper.logo();
+        LogoDesignHelper.showProgammLogo();
 
-        MainConfig.init();
+        AppConfiguration.init();
 
         HttpServiceBase.start();
 
@@ -56,14 +57,14 @@ public class Main {
     }
 
     private static void run() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scannerConsoleWrite = new Scanner(System.in);
 
         while (true) {
-            String command = scanner.nextLine();
+            String commandFromConsoleLine = scannerConsoleWrite.nextLine();
             if (isDisabled) {
                 break;
             }
-            commandHandle(command);
+            commandHandle(commandFromConsoleLine);
         }
 
     }
@@ -73,17 +74,17 @@ public class Main {
      * @param command
      */
     public static void commandHandle(String command) {
-        if (command.equals("stop")) {
+        if (command.equals(CoreAppCommandsEnum.stop.toString())) {
             onDisable();
             return;
         }
 
-        if (command.equals("stop-safely")) {
+        if (command.equals(CoreAppCommandsEnum.stop_safly.toString())) {
             isDisabled = true;
             return;
         }
 
-        if (command.equals("help")) {
+        if (command.equals(CoreAppCommandsEnum.help.toString())) {
             for (Fastcommand comander : commandServicesHandlers) {
                 comander.sendHelpCommand(new String[0]);
             }

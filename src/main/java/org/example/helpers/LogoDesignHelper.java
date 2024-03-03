@@ -4,7 +4,7 @@ public class LogoDesignHelper {
 
     public static String version = "0.7.1";
 
-    public static void logo() {
+    public static void showProgammLogo() {
 
         System.out.println(ChatColor.YELLOW + "             ==============================");
         System.out.println(ChatColor.YELLOW + "             |                            |");
