@@ -45,14 +45,7 @@ public class Main {
         commandServicesHandlers.add(new GitCmd());
         commandServicesHandlers.add(new SdbuController());
     }
-
-
-    private static void onDisable() {
-        if (isDisabled) return;
-        isDisabled = true;
-        ComboController.StopAll();
-        System.out.println("Disabled.");
-    }
+    
 
     private static void run() {
         Scanner scannerConsoleWrite = new Scanner(System.in);
@@ -69,6 +62,7 @@ public class Main {
 
     /**
      * Может выполняться с удаленного клиента
+     *
      * @param command
      */
     public static void commandHandle(String command) {
@@ -102,5 +96,11 @@ public class Main {
         }
     }
 
+    private static void onDisable() {
+        if (isDisabled) return;
+        isDisabled = true;
+        ComboController.StopAll();
+        System.out.println("Disabled.");
+    }
 
 }
