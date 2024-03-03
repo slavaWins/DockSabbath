@@ -7,11 +7,11 @@ import org.example.helpers.IpAttempts;
 import org.example.helpers.AppConfiguration;
 import org.example.repositories.NsConfigsRepository;
 import org.example.services.git.contracts.GitWebHookContract;
-import org.example.services.http.HttpServiceBase;
+import org.example.services.http.HttpService;
 import org.example.services.http.contracts.RouteContract;
 import org.example.services.sdbu.SdbuController;
 
-public class GitHttp {
+public class GitHttpModule {
 
     public void init() {
 
@@ -22,14 +22,14 @@ public class GitHttp {
         contract.call = this::ActionRoute;
         contract.method = "POST";
 
-        HttpServiceBase.addRoute(contract);
+        HttpService.addRoute(contract);
 
 
     }
 
     private String ActionRoute(HttpExchange httpExchange) {
 
-        String data = HttpServiceBase.readReqBody(httpExchange.getRequestBody());
+        String data = HttpService.readReqBody(httpExchange.getRequestBody());
 
         //  System.out.println(data);
 

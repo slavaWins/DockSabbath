@@ -8,13 +8,13 @@ import org.example.helpers.ChatColor;
 import org.example.helpers.IpAttempts;
 import org.example.helpers.AppConfiguration;
 import org.example.services.hashing.HashingApi;
-import org.example.services.http.HttpServiceBase;
+import org.example.services.http.HttpService;
 import org.example.services.http.contracts.RouteContract;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class ClientReadingApi {
+public class ClientReadingApiHttpModule {
 
     public void init() {
 
@@ -23,7 +23,7 @@ public class ClientReadingApi {
         contract.call = this::ActionRoute;
         contract.method = "POST";
 
-        HttpServiceBase.addRoute(contract);
+        HttpService.addRoute(contract);
 
 
     }
@@ -43,7 +43,7 @@ public class ClientReadingApi {
 
     private String ActionRoute(HttpExchange httpExchange) {
 
-        String data = HttpServiceBase.readReqBody(httpExchange.getRequestBody());
+        String data = HttpService.readReqBody(httpExchange.getRequestBody());
 
 
         ClientResponseContract responseContract = new ClientResponseContract();

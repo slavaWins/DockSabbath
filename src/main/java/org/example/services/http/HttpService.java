@@ -3,8 +3,6 @@ package org.example.services.http;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import org.example.core.yml.YmlConfig;
-import org.example.core.yml.YmlParser;
 import org.example.helpers.IpAttempts;
 import org.example.helpers.IpHelper;
 import org.example.helpers.Lang;
@@ -13,10 +11,9 @@ import org.example.services.http.contracts.RouteContract;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
-public class HttpServiceBase {
+public class HttpService {
 
     public static List<RouteContract> routes = new ArrayList<>();
 
@@ -30,6 +27,7 @@ public class HttpServiceBase {
     public static String getDomain() {
         return "http://" + IpHelper.getIp() + ":" + port;
     }
+
 
 
     public static void start() {

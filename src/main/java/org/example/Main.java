@@ -4,10 +4,10 @@ import org.example.contracts.CoreAppCommandsEnum;
 import org.example.core.Fastcommand;
 import org.example.helpers.*;
 import org.example.services.Combo.ComboController;
-import org.example.services.api.ClientReadingApi;
+import org.example.services.api.ClientReadingApiHttpModule;
 import org.example.services.git.GitCmd;
-import org.example.services.git.GitHttp;
-import org.example.services.http.HttpServiceBase;
+import org.example.services.git.GitHttpModule;
+import org.example.services.http.HttpService;
 import org.example.services.sdbu.SdbuController;
 
 import java.util.ArrayList;
@@ -37,11 +37,9 @@ public class Main {
 
         AppConfiguration.init();
 
-        HttpServiceBase.start();
-
-        new GitHttp().init();
-        new ClientReadingApi().init();
-
+        HttpService.start();
+        new GitHttpModule().init();
+        new ClientReadingApiHttpModule().init();
 
         commandServicesHandlers.add(new ComboController());
         commandServicesHandlers.add(new GitCmd());
