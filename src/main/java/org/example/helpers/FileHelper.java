@@ -8,10 +8,10 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Comparator;
 
-public class IoHelper {
+public class FileHelper {
 
 
-    public static void delete(File foolder) {
+    public static void deleteFile(File foolder) {
         if (foolder.exists()) {
             try {
                 Files.walk(foolder.toPath())
@@ -63,7 +63,7 @@ public class IoHelper {
         return null;
     }
 
-    public static void rename(File foolder, File to) {
+    public static void renameFile(File foolder, File to) {
         if (foolder.exists()) {
             try {
                 Files.walk(foolder.toPath())

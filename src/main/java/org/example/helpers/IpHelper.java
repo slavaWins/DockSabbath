@@ -6,7 +6,7 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 
-public class IpHelper {
+public final class IpHelper {
 
     public static String getIp() {
         try {
@@ -14,16 +14,16 @@ public class IpHelper {
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     whatIsMyIP.openStream()));
 
-            String ip = in.readLine(); //you get the IP as a String
+            String ip = in.readLine();
             return ip;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return getIp2();
+        return getLovalIp();
     }
 
-    public static String getIp2() {
+    private static String getLovalIp() {
         try {
             return InetAddress.getLocalHost().toString();
         } catch (UnknownHostException e) {

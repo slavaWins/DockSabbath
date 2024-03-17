@@ -1,6 +1,6 @@
 package org.example.services.sdbu;
 
-import org.example.core.Fastcommand;
+import org.example.core.BaseCommandController;
 import org.example.helpers.ChatColor;
 import org.example.helpers.Lang;
 import org.example.services.Combo.ComboController;
@@ -8,7 +8,7 @@ import org.example.services.git.GitDownload;
 import org.example.services.nsconfigs.NsFileReplecer;
 import org.example.services.procces.NsProcessed;
 
-public class SdbuController extends Fastcommand {
+public class SdbuController extends BaseCommandController {
 
 
     public SdbuController() {
@@ -50,13 +50,13 @@ public class SdbuController extends Fastcommand {
         }
 
         sendMessage(Lang.t("ns.stop","Остановка неймспейса " )+ ns);
-        composerCmd.Stop(argToList(ns));
+        composerCmd.Stop(argStringToArray(ns));
 
         NsFileReplecer.Repleing(ns);
 
         sendMessage(Lang.t("ns.build.wait","Билдинг запустить через несколько сек. "));
 
-        composerCmd.Build(argToList(ns));
+        composerCmd.Build(argStringToArray(ns));
 
         NsProcessed.addProcess(strings[0], "docker-compose up --build", false);
 

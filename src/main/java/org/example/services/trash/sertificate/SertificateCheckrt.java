@@ -1,6 +1,6 @@
 package org.example.services.trash.sertificate;
 
-import org.example.helpers.IoHelper;
+import org.example.helpers.FileHelper;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -16,7 +16,7 @@ public class SertificateCheckrt {
         if (!file.exists()) {
             Generate();
         }
-        return IoHelper.readFile(file);
+        return FileHelper.readFile(file);
     }
 
     public static String getPublicKey() {
@@ -24,7 +24,7 @@ public class SertificateCheckrt {
         if (!file.exists()) {
             Generate();
         }
-        return IoHelper.readFile(file);
+        return FileHelper.readFile(file);
     }
 
 
@@ -92,8 +92,8 @@ public class SertificateCheckrt {
         String publicKeyString = Base64.getEncoder().encodeToString(publicKey.getEncoded());
 
 
-        IoHelper.writeFile(new File("serts/private.pem"), privateKeyString);
-        IoHelper.writeFile(new File("serts/public.pem"), publicKeyString);
+        FileHelper.writeFile(new File("serts/private.pem"), privateKeyString);
+        FileHelper.writeFile(new File("serts/public.pem"), publicKeyString);
 
 
     }

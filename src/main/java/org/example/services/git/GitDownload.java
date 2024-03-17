@@ -5,7 +5,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.example.core.yml.YmlConfig;
 import org.example.core.yml.YmlParser;
-import org.example.helpers.IoHelper;
+import org.example.helpers.FileHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -65,15 +65,15 @@ public class GitDownload {
 
                 File to = new File(mainTempDir, "output");
                 if (to.exists()) {
-                    IoHelper.delete(to);
+                    FileHelper.deleteFile(to);
                 }
 
-                IoHelper.unzip(zipFile, to);
+                FileHelper.unzip(zipFile, to);
 
 
-                File firestFile = IoHelper.getFirstFolder(to);
+                File firestFile = FileHelper.getFirstFolder(to);
 
-                IoHelper.copyFile(firestFile, new File("ns-files/" + nameKey));
+                FileHelper.copyFile(firestFile, new File("ns-files/" + nameKey));
 
 
             } else {

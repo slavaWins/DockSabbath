@@ -1,6 +1,6 @@
 package org.example.services.Combo;
 
-import org.example.core.Fastcommand;
+import org.example.core.BaseCommandController;
 import org.example.helpers.Lang;
 import org.example.repositories.ComposesFilesRepository;
 import org.example.repositories.NsAttachRepository;
@@ -10,7 +10,7 @@ import org.example.views.PodView;
 
 import java.util.List;
 
-public class ComboController extends Fastcommand {
+public class ComboController extends BaseCommandController {
 
     private static ComboController instance;
 

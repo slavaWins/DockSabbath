@@ -57,7 +57,7 @@ public class GitHttpModule {
 
             new Thread(() -> {
                 SdbuController autoComboCmd = SdbuController.getInstance();
-                autoComboCmd.Sdbu(autoComboCmd.argToList(config.name));
+                autoComboCmd.Sdbu(autoComboCmd.argStringToArray(config.name));
             }).start();
             break;
 

@@ -1,10 +1,10 @@
 package org.example.services.git;
 
-import org.example.core.Fastcommand;
+import org.example.core.BaseCommandController;
 import org.example.helpers.Lang;
 import org.example.services.nsconfigs.NsFileReplecer;
 
-public class GitCmd extends Fastcommand {
+public class GitCmd extends BaseCommandController {
 
 
     private static GitCmd instance;

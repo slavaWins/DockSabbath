@@ -17,10 +17,10 @@ public class Lang {
     private static void load() {
 
        // System.out.println("LOADING lang ");
-        String file = IoHelper.readFile(new File("./lang/" + getLang() + ".json"));
+        String file = FileHelper.readFile(new File("./lang/" + getLang() + ".json"));
 
-        if (file == null) file = IoHelper.readFile(new File("./lang/en.json"));
-        if (file == null) file = IoHelper.readFile(new File("./lang/ru.json"));
+        if (file == null) file = FileHelper.readFile(new File("./lang/en.json"));
+        if (file == null) file = FileHelper.readFile(new File("./lang/ru.json"));
 
         if (file != null) {
            // System.out.println(file);
@@ -32,7 +32,7 @@ public class Lang {
 
 
         String c = new GsonBuilder().setPrettyPrinting().create().toJson(words);
-        IoHelper.writeFile(new File("./lang/" + getLang() + ".json"), c);
+        FileHelper.writeFile(new File("./lang/" + getLang() + ".json"), c);
 
     }
 

@@ -1,7 +1,7 @@
 package org.example;
 
 import org.example.contracts.CoreAppCommandsEnum;
-import org.example.core.Fastcommand;
+import org.example.core.BaseCommandController;
 import org.example.helpers.*;
 import org.example.services.Combo.ComboController;
 import org.example.services.api.ClientReadingApiHttpModule;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static List<Fastcommand> commandServicesHandlers = new ArrayList<Fastcommand>();
+    private static List<BaseCommandController> commandServicesHandlers = new ArrayList<BaseCommandController>();
     static boolean isDisabled = false;
 
     public static void main(String[] args) {
@@ -45,7 +45,7 @@ public class Main {
         commandServicesHandlers.add(new GitCmd());
         commandServicesHandlers.add(new SdbuController());
     }
-    
+
 
     private static void run() {
         Scanner scannerConsoleWrite = new Scanner(System.in);
@@ -77,21 +77,21 @@ public class Main {
         }
 
         if (command.equals(CoreAppCommandsEnum.help.toString())) {
-            for (Fastcommand comander : commandServicesHandlers) {
-                comander.sendHelpCommand(new String[0]);
+            for (BaseCommandController comander : commandServicesHandlers) {
+                comander.showHelpAboutCommand(new String[0]);
             }
             return;
         }
 
-        boolean isClosed = false;
-        for (Fastcommand comander : commandServicesHandlers) {
+        boolean isCommandExuted = false;//если команд
+        for (BaseCommandController comander : commandServicesHandlers) {
             if (comander.input(command)) {
-                isClosed = true;
+                isCommandExuted = true;
                 return;
             }
         }
 
-        if (!isClosed) {
+        if (!isCommandExuted) {
             System.out.println(ChatColor.RED + Lang.t("notfoundcomand", "Команда не найдена!") + ChatColor.WHITE + " Use command /help");
         }
     }

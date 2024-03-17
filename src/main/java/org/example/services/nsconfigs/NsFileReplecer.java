@@ -1,7 +1,7 @@
 package org.example.services.nsconfigs;
 
 import org.example.core.yml.YmlConfig;
-import org.example.helpers.IoHelper;
+import org.example.helpers.FileHelper;
 import org.example.helpers.IpHelper;
 import org.example.repositories.ComposesFilesRepository;
 import org.example.repositories.NsConfigsRepository;
@@ -44,7 +44,7 @@ public class NsFileReplecer {
                continue;
             }
 
-            String contentFile = IoHelper.readFile(composeFile);
+            String contentFile = FileHelper.readFile(composeFile);
 
             for (Map.Entry<String, String> entry : config.getDictionary("replaces").entrySet()) {
                 String to = entry.getValue();
@@ -55,7 +55,7 @@ public class NsFileReplecer {
                     contentFile = contentFile.replaceAll(entry.getKey(), to);
                 }
             }
-            IoHelper.writeFile(composeFile, contentFile);
+            FileHelper.writeFile(composeFile, contentFile);
 
         }
 

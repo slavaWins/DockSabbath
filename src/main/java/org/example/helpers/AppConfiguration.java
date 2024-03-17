@@ -42,7 +42,7 @@ public class AppConfiguration {
                     .create()
                     .toJson(this);
 
-            IoHelper.writeFile(new File("./config.json"), json);
+            FileHelper.writeFile(new File("./config.json"), json);
         }
     }
 
@@ -55,7 +55,7 @@ public class AppConfiguration {
 
         AppConfiguration appConfiguration = null;
 
-        String file = IoHelper.readFile(new File("./config.json"));
+        String file = FileHelper.readFile(new File("./config.json"));
 
         appConfiguration = new Gson().fromJson(file, AppConfiguration.class);
         appConfiguration.check();

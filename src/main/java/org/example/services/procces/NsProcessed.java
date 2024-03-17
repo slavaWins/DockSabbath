@@ -61,8 +61,6 @@ public class NsProcessed {
             return null;
         }
 
-        //  System.out.println(folder.getAbsolutePath()+ " " + cmdParts);
-
         ProcessBuilder processBuilder = new ProcessBuilder(cmdParts)
                 .directory(folder)
                 .redirectError(ProcessBuilder.Redirect.INHERIT);
@@ -74,7 +72,6 @@ public class NsProcessed {
         Process muProccess = null;
 
         try {
-            //  process = processBuilder.start();
 
             muProccess = processBuilder.start();
             responseContract.process = muProccess;
@@ -112,32 +109,5 @@ public class NsProcessed {
         }
 
         return responseContract;
-    }
-
-
-    public static void executeProcessAsync(Process process) {
-        CompletableFuture<Void> futures = CompletableFuture.runAsync(() -> {
-            try {
-                // Выполнение команды или другой логики для каждого процесса
-                // process.getOutputStream(), process.getInputStream() позволяет взаимодействовать с процессом
-                // Например:
-                // process.waitFor(); можно использовать для дожидания завершения процесса
-                // process.exitValue(); можно использовать для получения кода завершения процесса
-
-                System.out.println("Command executed in process: " + process.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-
-    public static Process getProccesByNs(String string) {
-        for (Process process : processes) {
-            if (process.toString().contains(string)) {
-                return process;
-            }
-        }
-        return null;
     }
 }
